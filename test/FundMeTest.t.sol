@@ -9,7 +9,7 @@ contract FundMeTest is Test {
     FundMe fundMe;
 
     function setUp() external {
-        fundMe = new FundMe();
+        fundMe = new FundMe(0x694AA1769357215DE4FAC081bf1f309aDC325306);
     }
 
     function testMinimumDollarIsFive() public view {
@@ -22,4 +22,11 @@ contract FundMeTest is Test {
         // fails as msg.sender is not the owner, owner of fundMe is FundMeTest
         assertEq(fundMe.i_owner(), address(this));
     }
+
+    // test这种需要请求链上数据的，需要define rpc, 不然会默认用anvil local network
+    // `forge test --fork-url $SEPOLIA_RPC_URL`
+    function testPriceFeedVersionIsAccurate() public view {
+        assertEq(fundMe.getVersion(), 4);
+    }
+
 }
