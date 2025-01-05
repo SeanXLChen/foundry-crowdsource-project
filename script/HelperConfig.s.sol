@@ -6,6 +6,7 @@
 pragma solidity ^0.8.18;
 
 import {Script} from "forge-std/Script.sol";
+import {MockV3Aggregator} from "../test/mock/MockV3Aggregator.sol";
 
 contract HelperConfig is Script {
     // If on local anvil chain, deploy mocks
@@ -16,6 +17,9 @@ contract HelperConfig is Script {
     }
 
     NetworkConfig public activeNetworkConfig;
+
+    uint8 public constant DECIMALS = 8;
+    int256 public constant INITIAL_PRICE = 3000e8;
 
     constructor() {
         // sepolia chain id: 11155111
@@ -38,18 +42,20 @@ contract HelperConfig is Script {
         return sepoliaConfig;
     }
 
-    function getAnvilEthConfig() public pure returns (NetworkConfig memory) {
-        // return price feed address for anvil eth/usd
-
+    function getAnvilEthConfig() public returns (NetworkConfig memory) {
         // 1. Deploy the mocks
         // 2. Return the mock address
 
         vm.startBroadcast();
-        
+        MockV3Aggregator mockAggregator = new MockV3Aggregator(
+            DECIMALS, 
+            INITIAL_PRICE
+        );
         vm.stopBroadcast();
+
         NetworkConfig memory anvilConfig = NetworkConfig({
             name: "Anvil",
-            priceFeed: 0x694AA1769357215DE4FAC081bf1f309aDC325306
+            priceFeed: address(mockAggregator)
         });
         return anvilConfig;
     }
