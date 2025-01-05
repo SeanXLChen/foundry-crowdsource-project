@@ -19,11 +19,11 @@ contract FundMeTest is Test {
         assertEq(fundMe.MINIMUM_USD(), 5e18);
     }
 
-    // us -> FundMeTest -> FundMe
+    // 你(测试执行者) -> FundMeTest合约 -> DeployFundMe合约 -> FundMe合约
     function testOwnerIsMsgSender() public view {
         // assertEq(fundMe.i_owner(), msg.sender); 
         // fails as msg.sender is not the owner, owner of fundMe is FundMeTest
-        assertEq(fundMe.i_owner(), address(this));
+        assertEq(fundMe.i_owner(), msg.sender);
     }
 
     // test这种需要请求链上数据的，需要define rpc, 不然会默认用anvil local network
