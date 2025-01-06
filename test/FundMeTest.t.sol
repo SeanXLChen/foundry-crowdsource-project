@@ -20,6 +20,12 @@ contract FundMeTest is Test {
         vm.deal(USER, STARTING_BALANCE); // send USER some ETH
     }
 
+    modifier fundUserOneETH() {
+        vm.prank(USER); // The next tx will be from USER
+        fundMe.fund{value: ONE_ETH}(); // 1 ETH from USER
+        _;
+    }
+
     function testMinimumDollarIsFive() public view {
         assertEq(fundMe.MINIMUM_USD(), 5e18);
     }
@@ -47,24 +53,17 @@ contract FundMeTest is Test {
         fundMe.fund(); // 0.0 ETH
     }
 
-    function testFundUpdatesFundedDataStructure() public {
-        vm.prank(USER); // The next tx will be from USER
-        fundMe.fund{value: ONE_ETH}(); // 1 ETH from USER
+    function testFundUpdatesFundedDataStructure() public fundUserOneETH {
         assertEq(fundMe.getAddressToAmountFunded(USER), ONE_ETH);
     }
 
-    function testAddsFunderToTheFundersArray() public {
-        vm.prank(USER); // The next tx will be from USER
-        fundMe.fund{value: ONE_ETH}(); // 1 ETH from USER
+    function testAddsFunderToTheFundersArray() public fundUserOneETH {
         assertEq(fundMe.getFunder(0), USER);
     }
 
-    function testOnlyOwnerCanWithdraw() public {
+    function testOnlyOwnerCanWithdraw() public fundUserOneETH {
         vm.prank(USER); // The next tx will be from USER
-        fundMe.fund{value: ONE_ETH}(); // 1 ETH from USER
-
         vm.expectRevert();
-        vm.prank(USER); // The next tx will be from USER
         fundMe.withdraw();
     }
 }
