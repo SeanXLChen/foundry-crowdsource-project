@@ -30,10 +30,6 @@ contract FundMe {
         s_funders.push(msg.sender);
     }
 
-    function getVersion() public view returns (uint256) {
-        return s_priceFeed.version();
-    }
-
     modifier onlyOwner() {
         // require(msg.sender == owner);
         if (msg.sender != i_owner) revert FundMe__NotOwner();
@@ -78,18 +74,31 @@ contract FundMe {
     }
 
     /**
-     * View / Pure functions do not cost gas when called externally by a user.
+     * Getter Functions
      */
 
-    function getAddressToAmountFunded(address _address) external view returns (uint256) {
-        return s_addressToAmountFunded[_address];
+    /**
+     * @notice Gets the amount that an address has funded
+     *  @param fundingAddress the address of the funder
+     *  @return the amount funded
+     */
+    function getAddressToAmountFunded(address fundingAddress) public view returns (uint256) {
+        return s_addressToAmountFunded[fundingAddress];
     }
 
-    function getFunders() external view returns (address[] memory) {
-        return s_funders;
+    function getVersion() public view returns (uint256) {
+        return s_priceFeed.version();
     }
 
-    function getPriceFeed() external view returns (AggregatorV3Interface) {
+    function getFunder(uint256 index) public view returns (address) {
+        return s_funders[index];
+    }
+
+    function getOwner() public view returns (address) {
+        return i_owner;
+    }
+
+    function getPriceFeed() public view returns (AggregatorV3Interface) {
         return s_priceFeed;
     }
 }
