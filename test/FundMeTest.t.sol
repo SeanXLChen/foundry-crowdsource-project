@@ -53,4 +53,18 @@ contract FundMeTest is Test {
         assertEq(fundMe.getAddressToAmountFunded(USER), ONE_ETH);
     }
 
+    function testAddsFunderToTheFundersArray() public {
+        vm.prank(USER); // The next tx will be from USER
+        fundMe.fund{value: ONE_ETH}(); // 1 ETH from USER
+        assertEq(fundMe.getFunder(0), USER);
+    }
+
+    function testOnlyOwnerCanWithdraw() public {
+        vm.prank(USER); // The next tx will be from USER
+        fundMe.fund{value: ONE_ETH}(); // 1 ETH from USER
+
+        vm.expectRevert();
+        vm.prank(USER); // The next tx will be from USER
+        fundMe.withdraw();
+    }
 }
