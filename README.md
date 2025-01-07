@@ -86,8 +86,7 @@ The interface allows you to:
 ## Video Tutorial
 
 For a step-by-step guide on setting up and using the FundMe smart contract, check out the following YouTube video:
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/AEWEwzIrf24?si=oPYR1yIavYf_zB5Q" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+[![FundMe Contract Demo](https://img.youtube.com/vi/AEWEwzIrf24/0.jpg)](https://www.youtube.com/watch?v=AEWEwzIrf24)
 
 ## Deployed Contracts
 
