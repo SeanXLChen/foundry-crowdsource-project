@@ -1,66 +1,123 @@
-## Foundry
+# FundMe Smart Contract
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+This project implements a crowdfunding smart contract using the Foundry development framework. Users can fund the contract with ETH (minimum $5 USD), and the contract owner can withdraw the accumulated funds. Based on the Cyfrin Foundry Fundamentals course Section 2.
 
-Foundry consists of:
+## Features
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+- ETH/USD price conversion using Chainlink Price Feeds
+- Minimum funding amount of $5 USD in ETH
+- Automated unit tests and integration tests
+- Multi-chain deployment support (Sepolia, Mainnet, Local)
+- Mock price feed for local testing
+- Gas optimization
+- Withdrawal functionality (owner only)
 
-## Documentation
+## Installation
 
-https://book.getfoundry.sh/
+1. Clone the repository
+```bash
+git clone <your-repo-url>
+cd foundry-simple-storage-xl
+```
+
+2. Install Foundry
+```bash
+curl -L https://foundry.paradigm.xyz | bash
+foundryup
+```
+
+3. Install dependencies
+```bash
+forge install
+```
+
+4. Set up environment variables
+```bash
+cp .env.example .env
+# Add your API keys and private key to .env:
+# SEPOLIA_RPC_URL=
+# PRIVATE_KEY=
+# ETHERSCAN_API_KEY=
+```
 
 ## Usage
 
-### Build
+### Deploy to Sepolia Testnet
 
-```shell
-$ forge build
+```bash
+make deploy-sepolia
 ```
 
-### Test
+### Fund the Contract
 
-```shell
-$ forge test
+```bash
+forge script script/Interactions.s.sol:FundFundMe --rpc-url $SEPOLIA_RPC_URL --private-key $PRIVATE_KEY --broadcast
 ```
 
-### Format
+### Withdraw Funds (Owner Only)
 
-```shell
-$ forge fmt
+```bash
+forge script script/Interactions.s.sol:WithdrawFundMe --rpc-url $SEPOLIA_RPC_URL --private-key $PRIVATE_KEY --broadcast
 ```
 
-### Gas Snapshots
+## Testing
 
-```shell
-$ forge snapshot
+### Run All Tests
+
+```bash
+forge test
 ```
 
-### Anvil
+### Run Specific Tests
 
-```shell
-$ anvil
+```bash
+# Unit tests
+forge test --match-path test/unit/FundMeTest.t.sol
+
+# Integration tests
+forge test --match-path test/Integration/InteractionsTest.t.sol
 ```
 
-### Deploy
+### Test Coverage
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+```bash
+forge coverage
 ```
 
-### Cast
+## Project Structure
 
-```shell
-$ cast <subcommand>
-```
+- `src/`: Smart contract source files
+  - `FundMe.sol`: Main contract implementation
+  - `PriceConverter.sol`: ETH/USD conversion library
+- `test/`: Test files
+  - `unit/`: Unit tests
+  - `Integration/`: Integration tests
+  - `mock/`: Mock contracts for testing
+- `script/`: Deployment and interaction scripts
+- `broadcast/`: Deployment artifacts
 
-### Help
+## Configuration
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+The contract can be deployed to different networks using `HelperConfig.s.sol`:
+
+- Sepolia Testnet
+- Ethereum Mainnet
+- Local Anvil chain (with mock price feed)
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
+
+## License
+
+MIT
+
+## Acknowledgements
+
+- [Cyfrin Foundry Course](https://github.com/Cyfrin/foundry-full-course-cu)
+- [Chainlink Price Feeds](https://docs.chain.link/data-feeds/price-feeds/addresses)
+- [Foundry Documentation](https://book.getfoundry.sh/)
