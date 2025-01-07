@@ -40,6 +40,10 @@ cp .env.example .env
 # ETHERSCAN_API_KEY=
 ```
 
+## Deployed Contracts
+
+Sepolia Testnet: [`0x9fc8a80eF33bCcDD0cD45a34129C513E11b234ea`](https://sepolia.etherscan.io/address/0x9fc8a80eF33bCcDD0cD45a34129C513E11b234ea)
+
 ## Usage
 
 ### Deploy to Sepolia Testnet
