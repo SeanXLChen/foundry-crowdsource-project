@@ -40,11 +40,60 @@ cp .env.example .env
 # ETHERSCAN_API_KEY=
 ```
 
+## Front-end Interface
+
+The project includes a front-end interface for interacting with the FundMe contract. 
+<img src="front-end/screenshot.png" alt="FundMe Interface Screenshot" width="400">
+Here's how to set it up:
+
+### Running the Front-end
+
+1. Start a local Anvil chain:
+```bash
+anvil
+```
+
+2. Deploy the FundMe contract to your local chain:
+```bash
+forge script script/DeployFundMe.s.sol --rpc-url http://localhost:8545 --private-key <PRIVATE_KEY> --broadcast
+```
+Note: Replace `<PRIVATE_KEY>` with one of the private keys provided by Anvil.
+
+3. Get contract address & abi
+- Deployed infos will be available under `broadcast` folder, get contract address
+- Run `forge inspect FundMe abi` to get the abi, 
+
+4. Navigate to the front-end directory and start a live server:
+```bash
+cd front-end
+# Use VS Code's Live Server extension or any other local server to serve index.html
+```
+
+### Interacting with the Interface
+
+Once running, you'll see a user interface with the following features:
+- Wallet connection status and address
+- Contract information (owner address and current balance)
+- Fund input field to send ETH to the contract
+- Withdraw button for the contract owner
+
+The interface allows you to:
+- Connect your MetaMask wallet
+- View contract details
+- Fund the contract with ETH (minimum $5 USD equivalent)
+- Withdraw funds (owner only)
+
+## Video Tutorial
+
+For a step-by-step guide on setting up and using the FundMe smart contract, check out the following YouTube video:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/AEWEwzIrf24?si=oPYR1yIavYf_zB5Q" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ## Deployed Contracts
 
 Sepolia Testnet: [`0x9fc8a80eF33bCcDD0cD45a34129C513E11b234ea`](https://sepolia.etherscan.io/address/0x9fc8a80eF33bCcDD0cD45a34129C513E11b234ea)
 
-## Usage
+## Usage (Sepolia Testnet for example)
 
 ### Deploy to Sepolia Testnet
 
